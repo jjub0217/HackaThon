@@ -52,10 +52,10 @@ button.onclick = function (){ // 그 요소에 클릭이벤트를 주려고 한�
 
 
 //222222222222
-// $ul.onclick = function (e) {
-//     if (e.target.matches('button')) { // e.target에 matches 메소드를 사용해서 찾으려는게 버튼인지 아닌지 확인해라. 확인해서 트루면
-//         console.log('Hello world'); // 이걸 출력해라. 
-//     }
+$ul.onclick = function (e) {
+    if (e.target.matches('button')) { // e.target에 matches 메소드를 사용해서 찾으려는게 버튼인지 아닌지 확인해라. 확인해서 트루면
+        console.log('Hello world'); // 이걸 출력해라. 
+    }
 
 
 // console.log(e.target.matches('button'));   // 출력해라. 뭐를? 이벤트객체의 target이라는 프로퍼티에 matches 메소드를 사용해라. 
