@@ -27,7 +27,7 @@ function todoContent() {
 }
 todoContent();
 
-const $delete = document.querySelector('.delete');
+// const $delete = document.querySelector('.delete');
 
 // $delete.forEach(function (button) {
 //     button.onclick = function (){ // 그 요소에 클릭이벤트를 주려고 한다. 
@@ -37,19 +37,19 @@ const $delete = document.querySelector('.delete');
 //     todoContent();
 //     );
 
-$delete.onclick = (e) => {
+$ul.onclick = (e) => {
     // if (e.target.matches('li > button')) return;
     console.log(e.target.parentNode.id);
-    console.log('2',todos)
-    todos = todos.filter(todo => todo.id !== e.target.parentNode.id)
-    console.log('3',todos)
+    console.log('2',todos);
+    todos = todos.filter(todo => todo.id !== +e.target.parentNode.id);
+    console.log('3',todos);
     todoContent();
 }
 
 
 
 
-
+ 
 
 
 
