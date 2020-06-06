@@ -38,11 +38,8 @@ todoContent();
 //     );
 
 $ul.onclick = (e) => {
-    // if (e.target.matches('li > button')) return;
-    console.log(e.target.parentNode.id);
-    console.log('2',todos);
+    if (!e.target.matches('li > button')) return;
     todos = todos.filter(todo => todo.id !== +e.target.parentNode.id);
-    console.log('3',todos);
     todoContent();
 }
 
@@ -51,8 +48,3 @@ $ul.onclick = (e) => {
 
  
 
-
-
-// $delete.forEach(function (button) {
-//     button.onclick = function (){ 
-//         console.log('Hello world'); }})
