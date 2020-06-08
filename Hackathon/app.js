@@ -1,25 +1,13 @@
-let todos = [{
-        id: 1,
-        content: 'A',
-        completed: false
-    },
-    {
-        id: 2,
-        content: 'B',
-        completed: false
-    },
-    {
-        id: 3,
-        content: 'C',
-        completed: false
-    }
-]
+let todos = [
+
+];
 
 
 const $ul = document.querySelector('.todo_list');
 const $completedAllToggle = document.querySelector('.completed-all');
 const $clearCompleted = document.querySelector('.clear-completed');
 const $activeTodos = document.querySelector('.active-todos');
+const $input = document.querySelector('.input');
 
 
 
@@ -46,6 +34,31 @@ render();
 //     todos = todos.map(todo => todo.id === id ? {...todo, completed: !todo.completed} : todo);
 // };
 
+function maxId () {
+const Id = todos.map(todo => todo.id)
+const max = Id.reduce((acc, cur) => (acc > cur ? acc : cur),0) + 1;
+// console.log(max);
+return (max);
+}
+
+function addTodo(content) {
+    todos = [{id: maxId(), content, completed:false}, ...todos];
+    // console.log(todos);
+
+    // 매개변수에 content 라고 주고 함수 몸체에 content 라고 하면 위에 content값만 들어가는 addTodo 인수로 content값을 의미하는 것을 넣었기 때문에 
+    // 이렇게 하면 content값이 들어간다.
+}
+
+$input.onkeyup = (e) => {
+    // console.log(e);
+    // console.dir(e.target.value);
+    
+    if (e.keyCode !== 13 || e.target.value === '') return;
+    addTodo(e.target.value);  // content 값만 들어가는 함수를 호출했다.
+    render();
+}
+
+
 $ul.onclick = (e) => {
     // console.log(e.target); // 삭제 버튼
     // console.log(e.target.parentNode); // <li id= 1></li>
@@ -59,25 +72,25 @@ $ul.onclick = (e) => {
     render();
 }
 
-// ---------------------------------------------------------------------------------------------------------------
+// // ---------------------------------------------------------------------------------------------------------------
 
-// 토글 체크하면 complete 값 반전시키기 
+// // 토글 체크하면 complete 값 반전시키기 
 
-// $ul.onchange = (e) => {
-// function toggleCompleted(id) {
-//     todos = todos.map(todo => todo.id === id ? {...todo, completed: !todo.completed} : todo);
-//     // todoContent();}
-// }
-// toggleCompleted(1);   // id 값이 1 인 요소의 completed값을 반전시켜라
-// console.log(todos[0].completed); // true -> false
+// // $ul.onchange = (e) => {
+// // function toggleCompleted(id) {
+// //     todos = todos.map(todo => todo.id === id ? {...todo, completed: !todo.completed} : todo);
+// //     // todoContent();}
+// // }
+// // toggleCompleted(1);   // id 값이 1 인 요소의 completed값을 반전시켜라
+// // console.log(todos[0].completed); // true -> false
 
 $ul.onchange = (e) => {
-console.log(e.target); // 토글체크박스
-console.log(e.target.checked); // 토글체크박스의 체크 상태(completed 상태) // 토글체크박스에 체크를 하면 true 로 나온다.
-console.log(typeof e.target.checked); // 불리언
-console.log(e.target.parentNode); // 체크박스가 체크된 li (id값이 3인거에 체크했으면 해당 로그값은 id값이 3인 li)
-console.log(e.target.id); // 값이 안나옴
-console.log(e.target.parentNode.id); // 1
+// console.log(e.target); // 토글체크박스
+// console.log(e.target.checked); // 토글체크박스의 체크 상태(completed 상태) // 토글체크박스에 체크를 하면 true 로 나온다.
+// console.log(typeof e.target.checked); // 불리언
+// console.log(e.target.parentNode); // 체크박스가 체크된 li (id값이 3인거에 체크했으면 해당 로그값은 id값이 3인 li)
+// console.log(e.target.id); // 값이 안나옴
+// console.log(e.target.parentNode.id); // 1
 
 // 처음엔 e.target.checked가 true 이면 풀어헤친 todo의  completed 값을 반전 시키면 되겠네 라고 생각햇다.
 // todos = todos.map(todo => (e.target.checked ? {...todo, completed: !todo.completed} : todo)); 
@@ -105,10 +118,10 @@ console.log(todos);
 };
 
 
-// -------------------------------------------------------------------------------------------------------
+// // -------------------------------------------------------------------------------------------------------
 
 
-// 푸터 맨 왼쪽 토글 첫번째 change하면 전체 li 전부 체크 되기
+// // 푸터 맨 왼쪽 토글 첫번째 change하면 전체 li 전부 체크 되기
 
 
 // $completedAllToggle.onchange = e => {
@@ -119,7 +132,7 @@ console.log(todos);
     //     console.log(todos);
     // }
     
-// 이벤트 핸들러 프로퍼티 방식은 동일한 요소에 동일한 이벤트 핸들러를 등록하지 못한다.
+// // 이벤트 핸들러 프로퍼티 방식은 동일한 요소에 동일한 이벤트 핸들러를 등록하지 못한다.
 
 $completedAllToggle.addEventListener('change', function(event){
     // todo의 completed가 false 인게 true일때 change 하면 completed 를 true 로 바꾸고, false 인거면 그대로 둔다.  
@@ -129,17 +142,17 @@ $completedAllToggle.addEventListener('change', function(event){
     
 });
 
-// 푸터 맨 왼쪽 토글 두번째로 클릭하면 전체 lig 전부 un체크 되기
+// // 푸터 맨 왼쪽 토글 두번째로 클릭하면 전체 lig 전부 un체크 되기
 
 $completedAllToggle.addEventListener('change', function(event){
     todos = todos.map(todo => todo.completed ? {...todo, completed: ''} : todo);
     // todo의 completed가 체크되어있는게 true 일때 change 하면 completed를 빈문자열(false)로 바꾸고 false 인거면(체크 안되어있으면) 그대로 둔다.
-    
+
     // render(); <- 이때는 왜 render(); 하면 안되는지 물어보기    
 });
 
 
-// //-------------------------------------------
+// // //-------------------------------------------
 
 // checked 된 li 만 삭제하기
 
@@ -152,6 +165,6 @@ $clearCompleted.onclick = (e) => {
     render();   // <- 이때 render는 todo 리스트를 새정비 하기 때문에 여기에 하는걸로 이해 오케이
 }
 
-// --------------------------------------------------------
+// // --------------------------------------------------------
 
 
