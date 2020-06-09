@@ -11,14 +11,38 @@ const $clearCompleted = document.querySelector('.clear-completed-btn');
 const $activeTodos = document.querySelector('.active-todos');
 const $input = document.querySelector('.input');
 const $completedTodos = document.querySelector('.completed-todos');
+const $nav = document.querySelector('.nav');
+const $all = document.getElementById('all');
+const $active = document.getElementById('active');
+const $completed = document.getElementById('completed');
+
 
 
 function render() {   // 배열 새로 그리는 함수 
+
+    // [...$nav.children].forEach($nav =>  
+    // $nav : ul로 묶은 li 마크업 
+    // $nav.children :  각각의 li의 id와 li의 value 이다. : 객체
+    // [$nav.children] : 객체
+    // [...$nav.children] : 객체 <- 각각의 li의 value 값만 담긴 배열이 된다. 
+    // 각각 Active에 담아주고, Completed 에 담아줘야 하는 작업을 해야 한다. 
+    // 그러기 위해서 원본배열은 훼손되면 안되니까 todos 의 복사본을 만들어서 
+    // 그 복사본에서 필터링을 해서 체크 된거, 안된거를 추출해서 담아줘야 한다. 
+    // 그래서 해당 위의 작업을 해주는 함수를 새로 추가해야 한다.
+
+    let filterTodos = []; // <- todos 의 복사본을 담기 위해 filterTodos 라는 변수에 빈 배열을 만들어준다.
+    filterTodos = [...todos]; // <- 위의 빈 배열에 기존 todos를 풀어헤친것을 담아준다. 
+
+
+
+
+
+    // ver2.0 버전 render 함수 
     let html = '';   // html 이라는 변수에 문자열 할당.
     todos.forEach(todo => { // todos를 forEach 로 todos의 length 만큼 순회돌면서 html을 생성 시키자.
         html +=  // html 이라는 문자열에 forEach 돌아서 생성한 html을 할당시키자.
        `<li id="${todo.id}" class="todo-item">
-        <input id="ck-${todo.id}" type="checkbox" class="checked"  ${todo.completed ? 'checked' : ''}><label for="ck-${todo.id}">${todo.content}</label>
+        <input id="ck-${todo.id}" type="checkbox" class="checkbox"  ${todo.completed ? 'checked' : ''}><label for="ck-${todo.id}">${todo.content}</label>
         <button class="delete">삭제</button>
         </li>`
     })
@@ -144,4 +168,88 @@ $clearCompleted.onclick = (e) => {  // completed 값이 true인(체크된) 모�
     render(); // 배열 새로 그리는 함수 넣기
 }
 
+// All 을 "클릭" 하면 All 의 id가 나와야 하고, Active를 "클릭하면" Active의 id 가 나와야 하고, 
+// Completed를 클릭함면 Completed의 id가 나와야 한다. 
 
+
+
+// [...$nav.children].forEach($nav =>  
+// $nav : ul로 묶은 li 마크업 
+// $nav.children :  각각의 li의 id와 li의 value 이다. : 객체
+// [$nav.children] : 객체
+// [...$nav.children] : 객체 <- 각각의 li의 value 값만 담긴 배열이 된다. 
+// 각각 Active에 담아주고, Completed 에 담아줘야 하는 작업을 해야 한다. 
+// 그러기 위해서 원본배열은 훼손되면 안되니까 todos 의 복사본을 만들어서 
+// 그 복사본에서 필터링을 해서 체크 된거, 안된거를 추출해서 담아줘야 한다. 
+// 그래서 해당 위의 작업을 해주는 함수를 새로 추가해야 한다.
+
+
+function tabMove() {
+   
+
+
+    console.log(target);   // 각 온클릭 이벤트가 실행되는 객체
+console.log(target.classList); // "" 왜지?
+
+    if (!target.matches('.nav > li')) return;
+    [...$nav.children].forEach($nav => {
+      if ($nav === target) target.classList.add('active');
+      else $nav.classList.remove('active');
+    //   $nav.classList.toggle('active', $nav === target)})
+     
+     todos =  todos.filter(todo => !todo.completed);
+     render();
+    });
+}
+$nav.onclick = activate;
+
+// $nav.onclick = (e) => {
+//     // console.dir(e);
+//     console.log(e); // 이벤트
+//     if (!e.target.matches('.nav > li#active')) return;
+//     console.log(e.target);
+//     todos = todos.filter(todo => !todo.completed);
+//     render();
+//     // console.log(!e.target); // false
+// }
+
+// $nav.onclick = (e) => {
+//     // console.dir(e);
+//     console.log(e); // 이벤트
+//     if (!e.target.matches('.nav > li#completed')) return;
+//     console.log(e.target);
+//     todos = todos.filter(todo => todo.completed);
+//     render();
+//     // console.log(!e.target); // false
+// }
+
+
+// $nav.addEventListener('click', function(event){
+//     if (!event.target.matches('.nav > #active')) return;
+//     todos = todos.filter(todo => !todo.completed);
+//     render();
+// });
+
+
+// $nav.addEventListener('click', function(event){
+//     if (!event.target.matches('.nav > #completed')) return;
+//     todos = todos.filter(todo => todo.completed);
+//     render();
+// });
+
+
+
+
+//     console.log($all.classList); // active
+//     // $all.classList.remove('.active');
+
+
+//     $all.className = 'active';
+//     $all.classList.remove('active');
+//     $all.classList.add('#active');
+//     // const actived = todos.filter(todo => !todo.completed);
+//     // console.log(actived);
+
+    
+//     // $all.classList.remove('.active');
+//     // e.target.classList.add('active');
