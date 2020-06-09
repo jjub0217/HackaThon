@@ -15,6 +15,9 @@ const $nav = document.querySelector('.nav');
 const $all = document.getElementById('all');
 const $active = document.getElementById('active');
 const $completed = document.getElementById('completed');
+let targetId = "all";
+
+
 
 // $ul.classList.add('a')
 
@@ -32,16 +35,18 @@ function render() {   // 배열 새로 그리는 함수
 
     let filterTodos = []; // <- todos 의 복사본을 담기 위해 filterTodos 라는 변수에 빈 배열을 만들어준다.
     filterTodos = [...todos]; // <- 위의 빈 배열에 기존 todos를 풀어헤친것을 담아준다. 
-
-    todos = todos.filter(todo => !todo.completed);
-
-    todos = todos.filter(todo => todo.completed);
+   
+    if ( targetId === 'active' ) {
+   filterTodos = todos.filter(todo => !todo.completed);
+    } else if(targetId === 'completed') {
+    filterTodos = todos.filter(todo => todo.completed);
+    }
 
 
 
     // ver2.0 버전 render 함수 
     let html = '';   // html 이라는 변수에 문자열 할당.
-    todos.forEach(todo => { // todos를 forEach 로 todos의 length 만큼 순회돌면서 html을 생성 시키자.
+    filterTodos.forEach(todo => { // todos를 forEach 로 todos의 length 만큼 순회돌면서 html을 생성 시키자.
         html +=  // html 이라는 문자열에 forEach 돌아서 생성한 html을 할당시키자.
        `<li id="${todo.id}" class="todo-item">
         <input id="ck-${todo.id}" type="checkbox" class="checkbox"  ${todo.completed ? 'checked' : ''}><label for="ck-${todo.id}">${todo.content}</label>
@@ -109,7 +114,7 @@ $ul.onchange = (e) => { // 토글 이벤트 등록하기
 
 function check (a){
     todos = todos.map(todo => ({ ...todo, completed: a }));
-    console.log(todos);
+    // console.log(todos);
 
 }
 
@@ -137,8 +142,8 @@ $completedAllToggle.addEventListener('change', function (event) {  // 전체 체
 
 
 $completedAllToggle.addEventListener('change', function (event) {   // 전체 체크 해제 토글 이벤트 등록하기
-    console.log(todos);  // 3개의 객체가 모두 true
-    console.log($completedAllToggle.checked); // true
+    // console.log(todos);  // 3개의 객체가 모두 true
+    // console.log($completedAllToggle.checked); // true
     check($completedAllToggle.checked);
     // todos = todos.map(todo => todo.completed); 
     // console.log(todos); // [true true true]
@@ -177,25 +182,37 @@ $clearCompleted.onclick = (e) => {  // completed 값이 true인(체크된) 모�
 // 그래서 해당 위의 작업을 해주는 함수를 새로 추가해야 한다.
 
 
-function tabMove() {
-
-    if (!target.matches('.nav > li')) return;
-    [...$nav.children].forEach($nav => {
-      if ($nav === target) // 내가 클릭한게 타겟임. 
+function tabMove(e) { // id로 하는 이유는 일관성때문이다. 굳이 타겟으로 할필요가 없다. <- 왜지? 이해안되서 안고쳤다.
+ 
+    [...$nav.children].forEach($navItem => {
+      if ($navItem === e.target) // 내가 클릭한게 타겟임. 
       {
       // 지금 $nav 를 forEach 돌리고 있음. 
       // $nav 를 forEach 돌면서 클릭되어있는 타겟이랑 매치되는 순간이 있을거임
       // 그 순간을 위 if문처럼 나타냄 if ($nav === target) <- 요렇게 나타냄
-      target.classList.add('active');
+      e.target.classList.add('active');
       // $nav 를 forEach 돌면서 클릭되어있는 타겟이랑 매치되는 순간에 active 라는 
       // 클래스를 달아줌으로써 해당 타겟이 파란색으로 되게 해준거임.
-      todos = todos.filter(todo => !todo.completed)
     } else {
-      $nav.classList.remove('active')
-      todos = todos.filter(todo => todo.completed)
+      $navItem.classList.remove('active');
+
     };
-      // 타겟이랑 $nav forEach 가 매치 되는 순간이 있으면 매치 안된 li가 있지 않겠음?
-      // 그때 그 li에는 active 라는 클래스를 떼줌으로써, 얘네들은 파란색으로 해주지 않게 한거임.
+        // 타겟이랑 $nav forEach 가 매치 되는 순간이 있으면 매치 안된 li가 있지 않겠음?
+        // 그때 그 li에는 active 라는 클래스를 떼줌으로써, 얘네들은 파란색으로 해주지 않게 한거임.
+        // console.log(e.target.id);
+      
+      targetId = e.target.id;  // e.target의 id가 active 달린 타겟의 id 인데, 이걸 써먹기 위해서
+      // 어딘가에 저장해놔야 함. 그래서 targetId 라는 변수에 저장함. 
+      
      render();
     });
+    // console.log(targetId);
+}
+
+
+$nav.onclick = (e) => {
+    console.log(e);
+    
+    if ( !e.target.matches('.nav > li')) return;
+    tabMove();
 }
