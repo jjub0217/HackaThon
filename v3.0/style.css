@@ -77,7 +77,7 @@ body {
 }
 
 .nav > li.active {
-  color: #fff;
+  color: rgb(128, 114, 114);
   background-color: #23b7e5;
 }
 
