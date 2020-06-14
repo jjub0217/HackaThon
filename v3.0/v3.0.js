@@ -183,13 +183,13 @@ $clearCompleted.onclick = (e) => {  // completed 값이 true인(체크된) 모�
 
 
 function tabMove(e) { // id로 하는 이유는 일관성때문이다. 굳이 타겟으로 할필요가 없다. <- 왜지? 이해안되서 안고쳤다.
- 
+    if ( !e.target.matches('.nav > li')) return;
     [...$nav.children].forEach($navItem => {
       if ($navItem === e.target) // 내가 클릭한게 타겟임. 
       {
       // 지금 $nav 를 forEach 돌리고 있음. 
       // $nav 를 forEach 돌면서 클릭되어있는 타겟이랑 매치되는 순간이 있을거임
-      // 그 순간을 위 if문처럼 나타냄 if ($nav === target) <- 요렇게 나타냄
+      // 그 순간을 위 if문처럼 나타냄 if ($nav === e.target) <- 요렇게 나타냄
       e.target.classList.add('active');
       // $nav 를 forEach 돌면서 클릭되어있는 타겟이랑 매치되는 순간에 active 라는 
       // 클래스를 달아줌으로써 해당 타겟이 파란색으로 되게 해준거임.
@@ -210,9 +210,4 @@ function tabMove(e) { // id로 하는 이유는 일관성때문이다. 굳이 �
 }
 
 
-$nav.onclick = (e) => {
-    console.log(e);
-    
-    if ( !e.target.matches('.nav > li')) return;
-    tabMove();
-}
+$nav.onclick = tabMove();
